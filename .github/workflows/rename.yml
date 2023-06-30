@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   rename-project:
-    if: ${{ github.repository != 'fifthtry/fastn-template' && github.run_number == 1 }}
+    if: ${{ github.event.repository.name != 'my-card-template' && github.run_number == 1 }}
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -28,10 +28,10 @@ jobs:
           rm .github/workflows/rename.yml
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "✅ Ready to clone and code."
+          commit_message: "Template flags renamed"
           # commit_options: '--amend --no-edit'
           push_options: --force
   call-deploy-workflow:
     permissions: write-all
     needs: [ rename-project ]
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/workflows/site-deploy.yml
